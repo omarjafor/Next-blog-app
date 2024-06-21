@@ -10,18 +10,31 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import Link from "next/link";
 
-const AddNewBlog = ({ openModal, setOpenModal, blogFormData, setBlogFormData, loading, handleBlogData }) => {
+const AddNewBlog = ({ openModal, setOpenModal, blogFormData, setBlogFormData, loading, handleBlogData, editBlogId, setEditBlogId }) => {
     
     return (
         <div>
             <Button onClick={() => setOpenModal(true)}>
                 Add New Blog
             </Button>
-            <Dialog open={openModal} onOpenChange={setOpenModal}>
+            <Button className='ml-4'>
+                <Link href={'/'}>
+                    Home
+                </Link>
+            </Button>
+            <Dialog open={openModal} onOpenChange={() => {
+                setOpenModal(false);
+                setBlogFormData({
+                    title: '',
+                    description: ''
+                }),
+                setEditBlogId(null)
+            }}>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Add New Blog</DialogTitle>
+                        <DialogTitle>{editBlogId ? 'Edit Blog' : 'Add New Blog'}</DialogTitle>
                         <DialogDescription>
                             Make changes or create new blog here. Click save when you're done.
                         </DialogDescription>
