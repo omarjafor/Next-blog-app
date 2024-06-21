@@ -64,6 +64,7 @@ const BlogOverview = ({ blogList }) => {
 
     async function handleDelete(id){
         try {
+            setLoading(true);
             const apiResponse = await fetch(`/api/delete-blog?id=${id}`, {
                 method: 'DELETE'
             });
@@ -71,9 +72,11 @@ const BlogOverview = ({ blogList }) => {
             if(result?.success) {
                 router.refresh();
                 toast.success(result.message)
+                setLoading(false);
             }
         } catch (error) {
             console.log(error);
+            setLoading(false);
         }
     }
     return (
@@ -100,9 +103,7 @@ const BlogOverview = ({ blogList }) => {
                                     <CardDescription>{blog.description}</CardDescription>
                                     <div className="flex items-center mt-5 gap-5">
                                         <Button onClick={() => handleEdit(blog)}>
-                                            {
-                                                loading ? 'Loading...' : 'Edit'
-                                            }
+                                            Edit
                                         </Button>
                                         <Button onClick={() => handleDelete(blog._id)}>
                                             {
